@@ -1,94 +1,175 @@
-<header>
 
-<!--
-  <<< Author notes: Course header >>>
-  Read <https://skills.github.com/quickstart> for more information about how to build courses using this template.
-  Include a 1280×640 image, course name in sentence case, and a concise description in emphasis.
-  In your repository settings: enable template repository, add your 1280×640 social image, auto delete head branches.
-  Next to "About", add description & tags; disable releases, packages, & environments.
-  Add your open source license, GitHub uses the MIT license.
--->
+# OPC Modbus TCP 网关
 
-# Code with GitHub Copilot
+一款功能强大的工业通信网关软件，实现OPC DA到Modbus TCP协议的转换。
 
-_GitHub Copilot can help you code by offering autocomplete-style suggestions right in VS Code and Codespaces._
+## 功能特性
 
-</header>
+1. **OPC DA 客户端** - 支持从OPC DA服务器获取数据
+2. **Modbus TCP 服务器** - 提供标准的Modbus TCP服务器功能
+3. **多种数据类型支持** - INT16、UINT16、INT32、UINT32、FLOAT32、FLOAT64、INT64、UINT64
+4. **工程管理** - 支持工程的保存与加载
+5. **CSV 导入导出** - 方便批量配置标签
+6. **无限制寄存器** - 支持65536个寄存器地址空间
 
-<!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
--->
+## 系统要求
 
-## Step 1: Leverage Codespaces with VS Code for Copilot
+- Python 3.7+
+- Windows操作系统（OPC DA需要Windows环境）
 
-_Welcome to "Develop With AI Powered Code Suggestions Using GitHub Copilot and VS Code"! :wave:_
+## 安装步骤
 
-GitHub Copilot is an AI pair programmer that helps you write code faster and with less work. It draws context from comments and code to suggest individual lines and whole functions instantly. GitHub Copilot is powered by OpenAI Codex, a generative pretrained language model created by OpenAI.
+### 1. 克隆或下载项目
 
-**Copilot works with many code editors including VS Code, Visual Studio, JetBrains IDE, and Neovim.**
+```bash
+cd /workspace
+```
 
-Additionally, GitHub Copilot is trained on all languages that appear in public repositories. For each language, the quality of suggestions you receive may depend on the volume and diversity of training data for that language.
+### 2. 创建虚拟环境（推荐）
 
-Using Copilot inside a Codespace shows just how easy it is to get up and running with GitHub's suite of [Collaborative Coding](https://github.com/features#features-collaboration) tools.
+```bash
+python -m venv venv
 
-> **Note**
-> This skills exercise will focus on leveraging GitHub Codespace. It is recommended that you complete the GitHub skill, [Codespaces](https://github.com/skills/code-with-codespaces), before moving forward with this exercise.
+# Windows
+venv\Scripts\activate
 
-### :keyboard: Activity: Enable Copilot inside a Codespace
+# Linux/Mac
+source venv/bin/activate
+```
 
-**We recommend opening another browser tab to work through the following activities so you can keep these instructions open for reference.**
+### 3. 安装依赖
 
-Before you open up a codespace on a repository, you can create a development container and define specific extensions or configurations that will be used or installed in your codespace. Let's create this development container and add copilot to the list of extensions.
+```bash
+pip install -r requirements.txt
+```
 
-1. Navigating back to your **Code** tab of your repository, click the **Add file** drop-down button, and then click `Create new file`.
-1. Type or paste the following in the empty text field prompt to name your file.
-   ```
-   .devcontainer/devcontainer.json
-   ```
-1. In the body of the new **.devcontainer/devcontainer.json** file, add the following content:
-   ```
-   {
-       // Name this configuration
-       "name": "Codespace for Skills!",
-       "customizations": {
-           "vscode": {
-               "extensions": [
-                   "GitHub.copilot"
-               ]
-           }
-       }
-   }
-   ```
-1. Select the option to **Commit directly to the `main` branch**, and then click the **Commit new file** button.
-1. Navigate back to the home page of your repository by clicking the **Code** tab located at the top left of the screen.
-1. Click the **Code** button located in the middle of the page.
-1. Click the **Codespaces** tab on the box that pops up.
-1. Click the **Create codespace on main** button.
+## 快速开始
 
-   **Wait about 2 minutes for the codespace to spin itself up.**
+### 运行程序
 
-1. Verify your codespace is running. The browser should contain a VS Code web-based editor and a terminal should be present such as the below:
-   ![Screen Shot 2023-03-09 at 9 09 07 AM](https://user-images.githubusercontent.com/26442605/224102962-d0222578-3f10-4566-856d-8d59f28fcf2e.png)
-1. The `copilot` extension should show up in the VS Code extension list. Click the extensions sidebar tab. You should see the following:
-   ![Screen Shot 2023-03-09 at 9 04 13 AM](https://user-images.githubusercontent.com/26442605/224102514-7d6d2f51-f435-401d-a529-7bae3ae3e511.png)
+```bash
+python main_gui.py
+```
 
-**Wait about 60 seconds then refresh your repository landing page for the next step.**
+### 基本使用流程
 
-<footer>
+1. **配置OPC DA服务器
+   - 在"OPC DA配置"区域选择或输入OPC服务器名称
+   - 点击"连接"按钮连接到OPC服务器
 
-<!--
-  <<< Author notes: Footer >>>
-  Add a link to get support, GitHub status page, code of conduct, license link.
--->
+2. **配置Modbus TCP服务器
+   - 设置Modbus端口（默认502）
+   - 设置数据刷新间隔
 
----
+3. **添加标签映射**
+   - 输入OPC标签名称
+   - 设置对应的Modbus寄存器地址
+   - 选择数据类型
+   - 点击"添加标签"
 
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/code-with-copilot) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
+4. **启动网关**
+   - 点击"启动网关"按钮开始数据转发
 
-&copy; 2023 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+## 数据类型说明
 
-</footer>
+| 数据类型 | 长度（寄存器） | 说明 |
+|---------|--------------|------|
+| INT16 | 1 | 16位有符号整数 |
+| UINT16 | 1 | 16位无符号整数 |
+| INT32 | 2 | 32位有符号整数 |
+| UINT32 | 2 | 32位无符号整数 |
+| FLOAT32 | 2 | 32位浮点数 |
+| FLOAT64 | 4 | 64位浮点数 |
+| INT64 | 4 | 64位有符号整数 |
+| UINT64 | 4 | 64位无符号整数 |
+
+## CSV文件格式
+
+导入/导出的CSV文件应包含以下列：
+
+- `tag_name`: OPC标签名称
+- `register_addr`: Modbus寄存器地址
+- `data_type`: 数据类型
+- `description`: 标签描述
+- `register_type`: 寄存器类型（holding/input）
+
+示例CSV内容：
+
+```csv
+tag_name,register_addr,data_type,description,register_type
+Random.Int1,0,INT16,随机整数1,holding
+Random.Real1,1,FLOAT32,随机浮点数1,holding
+```
+
+## 工程文件格式
+
+工程文件使用JSON格式保存，包含以下信息：
+- OPC服务器配置
+- Modbus端口配置
+- 刷新速率
+- 标签映射配置
+
+## 注意事项
+
+1. **OPC DA需要在Windows环境下运行，本软件提供模拟模式可在任何环境下测试
+2. 首次使用建议先用模拟模式测试功能
+3. 生产环境请确保OPC服务器已正确安装并运行
+4. Modbus端口502可能需要管理员权限
+5. 确保防火墙允许Modbus TCP连接
+
+## 常见问题
+
+### Q: 如何连接到真实的OPC DA服务器？
+
+A: 在Windows环境下，安装OpenOPC库：
+
+```bash
+pip install pywin32
+pip install OpenOPC-Python3x
+```
+
+### Q: 支持哪些OPC DA服务器？
+
+A: 支持所有标准的OPC DA服务器，如：
+- Matrikon OPC Simulation Server
+- Kepware KEPServerEX
+- Siemens OPC Server
+- 其他符合OPC DA 2.0/3.0规范的服务器
+
+### Q: Modbus TCP客户端如何连接？
+
+A: 使用任何标准的Modbus TCP客户端软件，如：
+- Modbus Poll
+- Modbus Master
+- 自行开发的Modbus TCP客户端
+
+## 项目结构
+
+```
+/workspace/
+├── config.py              # 配置文件
+├── data_converter.py     # 数据类型转换模块
+├── opc_client.py        # OPC DA客户端模块
+├── modbus_server.py      # Modbus TCP服务器模块
+├── project_manager.py   # 工程管理模块
+├── gateway_controller.py # 主控制器模块
+├── main_gui.py          # 图形用户界面
+├── requirements.txt      # 依赖包列表
+└── README.md            # 说明文档
+```
+
+## 技术栈
+
+- **GUI框架**: PyQt5
+- **Modbus协议**: pymodbus
+- **OPC DA**: OpenOPC (Windows环境)
+- **数据处理**: struct, numpy
+
+## 许可证
+
+本项目仅供学习和商业使用。
+
+## 支持
+
+如有问题或建议，请联系开发者。
+

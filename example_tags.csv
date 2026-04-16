@@ -1,0 +1,9 @@
+
+tag_name,register_addr,data_type,description,register_type
+Random.Int1,0,INT16,随机整数1,holding
+Random.Int2,1,UINT16,随机整数2,holding
+Random.Real1,2,FLOAT32,随机浮点数1,holding
+Random.Real2,4,FLOAT32,随机浮点数2,holding
+Counter,6,INT32,计数器,holding
+Temperature,8,FLOAT64,温度传感器,holding
+Status,12,INT16,设备状态,holding
