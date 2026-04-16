@@ -6,7 +6,7 @@ Modbus TCP 服务器模块
 
 import threading
 from pymodbus.server import StartTcpServer
-from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
+from pymodbus.datastore import ModbusServerContext
 from pymodbus.datastore import ModbusSequentialDataBlock
 from typing import Dict, Optional
 from config import MAX_REGISTERS
@@ -19,7 +19,6 @@ class ModbusTCPServer:
         self.running = False
         self.server_thread = None
         self.context = None
-        self.store = None
         self.holding_registers = [0] * MAX_REGISTERS
         self.input_registers = [0] * MAX_REGISTERS
         self.coils = [False] * MAX_REGISTERS
@@ -45,20 +44,15 @@ class ModbusTCPServer:
             self.port = port
             
             # 创建数据块
-            block_hr = ModbusSequentialDataBlock(0, self.holding_registers)
-            block_ir = ModbusSequentialDataBlock(0, self.input_registers)
-            block_co = ModbusSequentialDataBlock(0, self.coils)
-            block_di = ModbusSequentialDataBlock(0, self.discrete_inputs)
+            store = {
+                'di': ModbusSequentialDataBlock(0, self.discrete_inputs),
+                'co': ModbusSequentialDataBlock(0, self.coils),
+                'hr': ModbusSequentialDataBlock(0, self.holding_registers),
+                'ir': ModbusSequentialDataBlock(0, self.input_registers),
+            }
             
-            # 创建从站上下文
-            self.store = ModbusSlaveContext(
-                di=block_di,
-                co=block_co,
-                hr=block_hr,
-                ir=block_ir,
-            )
-            
-            self.context = ModbusServerContext(slaves=self.store, single=True)
+            # 创建上下文
+            self.context = ModbusServerContext(slaves=store, single=True)
             
             # 在新线程中启动服务器
             self.running = True
@@ -109,8 +103,8 @@ class ModbusTCPServer:
         """
         if 0 <= address < MAX_REGISTERS:
             self.holding_registers[address] = value & 0xFFFF
-            if self.store:
-                self.store.setValues(3, address, [self.holding_registers[address]])
+            if self.context:
+                self.context[0].setValues(3, address, [self.holding_registers[address]])
     
     def write_holding_registers(self, address: int, values: list):
         """
@@ -124,8 +118,8 @@ class ModbusTCPServer:
             if 0 <= address + i < MAX_REGISTERS:
                 self.holding_registers[address + i] = value & 0xFFFF
         
-        if self.store:
-            self.store.setValues(3, address, [v & 0xFFFF for v in values])
+        if self.context:
+            self.context[0].setValues(3, address, [v & 0xFFFF for v in values])
     
     def write_input_register(self, address: int, value: int):
         """
@@ -137,8 +131,8 @@ class ModbusTCPServer:
         """
         if 0 <= address < MAX_REGISTERS:
             self.input_registers[address] = value & 0xFFFF
-            if self.store:
-                self.store.setValues(4, address, [self.input_registers[address]])
+            if self.context:
+                self.context[0].setValues(4, address, [self.input_registers[address]])
     
     def write_input_registers(self, address: int, values: list):
         """
@@ -152,8 +146,8 @@ class ModbusTCPServer:
             if 0 <= address + i < MAX_REGISTERS:
                 self.input_registers[address + i] = value & 0xFFFF
         
-        if self.store:
-            self.store.setValues(4, address, [v & 0xFFFF for v in values])
+        if self.context:
+            self.context[0].setValues(4, address, [v & 0xFFFF for v in values])
     
     def write_value_to_registers(self, address: int, value, data_type: str, register_type: str = 'holding'):
         """
