@@ -1,0 +1,30 @@
+<Window x:Class="OPC2Modbus.LicenseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="License Registration"
+        Height="300"
+        Width="400"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Label Grid.Row="0" Content="License Key:" Margin="10"/>
+        <TextBox Grid.Row="1" x:Name="txtLicenseKey" Margin="10" Height="30"/>
+        
+        <TextBlock Grid.Row="2" x:Name="txtStatus" Margin="10" Height="30" FontWeight="Bold"/>
+        
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button x:Name="btnRegister" Content="Register" Width="80" Height="30" Margin="5" Click="btnRegister_Click"/>
+            <Button x:Name="btnCancel" Content="Cancel" Width="80" Height="30" Margin="5" Click="btnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
